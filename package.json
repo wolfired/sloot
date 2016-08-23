@@ -6,12 +6,12 @@
     "slt_exp": "./bin/exporter.js"
   },
   "scripts": {
-    "make_bin": "tsc -p .",
-    "make_lib": "tsc -p . --declaration --outDir ./lib",
+    "bin": "tsc -p .",
+    "lib": "tsc -p . --declaration --outDir ./lib",
     "sync": "git pull && npm update",
     "clean": "rm -rf bin/ lib/",
     "types": "typings install",
-    "preinstall": "npm run types && npm run make_bin"
+    "install": "npm run types && npm run bin"
   },
   "repository": {
     "type": "git",
