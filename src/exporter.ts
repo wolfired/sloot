@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 
-export function Main(dir: string): void {
-    searchDir(dir);
-}
+(():void => {
+     searchDir(process.argv[2]);
+})();
 
 function searchDir(dir: string): void {
     let files: string[] = fs.readdirSync(dir);
