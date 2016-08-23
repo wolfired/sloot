@@ -2,14 +2,16 @@
   "name": "sloot",
   "version": "0.0.1",
   "description": "",
-  "main": "./lib/index.js",
+  "bin": {
+    "slt_exp": "./bin/exporter.js"
+  },
   "scripts": {
     "bin": "tsc -p .",
     "lib": "tsc -p . --declaration --outDir ./lib",
     "sync": "git pull && npm update --save",
     "clean": "rm -rf bin/ lib/",
     "typ": "typings install",
-    "postinstall": "npm run typ && npm run lib"
+    "postinstall": "npm run typ && npm run bin"
   },
   "repository": {
     "type": "git",
