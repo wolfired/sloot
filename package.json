@@ -1,0 +1,23 @@
+{
+  "name": "sloot",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "bin": "tsc -p .",
+    "lib": "tsc -p . --declaration --outDir ./lib",
+    "sync": "git pull && npm update --save",
+    "clean": "rm -rf bin/ lib/",
+    "postinstall": "npm run lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wolfired/sloot.git"
+  },
+  "author": "LinkWu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wolfired/sloot/issues"
+  },
+  "homepage": "https://github.com/wolfired/sloot#readme"
+}
