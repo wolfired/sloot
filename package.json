@@ -8,7 +8,8 @@
     "lib": "tsc -p . --declaration --outDir ./lib",
     "sync": "git pull && npm update --save",
     "clean": "rm -rf bin/ lib/",
-    "postinstall": "npm run lib"
+    "typ": "typings install",
+    "postinstall": "npm run typ && npm run lib"
   },
   "repository": {
     "type": "git",
