@@ -11,7 +11,7 @@
     "sync": "git pull && npm update --save",
     "clean": "rm -rf bin/ lib/",
     "typ": "typings install",
-    "postinstall": "npm run typ && npm run bin"
+    "preinstall": "npm run typ && npm run bin"
   },
   "repository": {
     "type": "git",
