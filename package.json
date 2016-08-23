@@ -8,10 +8,10 @@
   "scripts": {
     "bin": "tsc -p .",
     "lib": "tsc -p . --declaration --outDir ./lib",
-    "sync": "git pull && npm update --save",
+    "sync": "git pull && npm update",
     "clean": "rm -rf bin/ lib/",
-    "typ": "typings install",
-    "preinstall": "npm run typ && npm run bin"
+    "types": "typings install",
+    "install": "npm run types && npm run bin"
   },
   "repository": {
     "type": "git",
