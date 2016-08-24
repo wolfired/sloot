@@ -9,7 +9,7 @@
     "bin": "tsc -p .",
     "lib": "tsc -p . --declaration --outDir ./lib",
     "sync": "git pull && npm update",
-    "clean": "rm -rf bin/ lib/",
+    "clean": "rm -rf bin/*.* lib/",
     "types": "typings install",
     "install": "npm run types && npm run bin"
   },
