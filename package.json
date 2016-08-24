@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "bin": {
-    "slt_exp": "./bin/exporter.js"
+    "slt_exp": "./bin/exporter"
   },
   "scripts": {
     "bin": "tsc -p .",
