@@ -40,7 +40,7 @@ function handleDir(dir: string): void {
             let codes: string[] = genCode(dir + "/" + element);
 
             if (null !== codes) {
-                exports.push(`export { ${codes.join(",")} } from "${"./" + dir.match(/\w+$/g)[0] + "/" + element}";`);
+                exports.push(`export { ${codes.join(",")} } from "${"./" + dir.match(/\w+$/g)[0] + "/" + element.replace(".ts", "")}";`);
             }
         }
     });
@@ -51,7 +51,7 @@ function handleDir(dir: string): void {
 
 function genCode(ts: string): string[] {
     let content: string = fs.readFileSync(ts, "utf8");
-    let exports = content.match(/^export\s+(interface|class|function)\s+[A-Z]\w*(?=\s*({|\())/gm);
+    let exports = content.match(/^export\s+(interface|class|function)\s+[A-Z]\w*(?=\s*({|\()|<)/gm);
 
     if (null === exports || 0 === exports.length) {
         return null;
