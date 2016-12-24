@@ -11,7 +11,7 @@
     "clean": "rm -rf bin/*.* lib/",
     "deps": "rm -rf node_modules/ && npm install",
     "types": "rm -rf typings/ && typings install",
-    "install": "npm run types && npm run bin"
+    "install": "npm run types && npm run lib"
   },
   "repository": {
     "type": "git",
