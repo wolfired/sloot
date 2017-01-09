@@ -24,11 +24,16 @@ function searchDir(dir: string): void {
 }
 
 function handleDir(dir: string): void {
-    let exports: string[] = [];
+    let exports_public: string[] = [];
+    let exports_internal: string[] = [];
+    const internal_ts: string = "internal.ts";
 
     let files: string[] = fs.readdirSync(dir);
 
     files.forEach(element => {
+        if(internal_ts === element){
+            return;
+        }
 
         let stats: fs.Stats = fs.statSync(dir + "/" + element);
 
@@ -37,27 +42,51 @@ function handleDir(dir: string): void {
         }
 
         if (-1 === files.indexOf(element.match(/\w+(?=\.)/)[0])) {
-            let codes: string[] = genCode(dir + "/" + element);
+            let codes: string[] = genCode(dir + "/" + element, /^export\s+(interface|class|function|type|var|let|const)\s+[A-Z]\w*(?=\s*({|\()|<|:|)/gm);
 
             if (null !== codes) {
-                exports.push(`export { ${codes.join(",")} } from "${"./" + dir.match(/\w+$/g)[0] + "/" + element.replace(".ts", "")}";`);
+                exports_public.push(`export { ${codes.join(",")} } from "${"./" + dir.match(/\w+$/g)[0] + "/" + element.replace(".ts", "")}";`);
+                exports_internal.push(`export { ${codes.join(",")} } from "${"./" + element.replace(".ts", "")}";`);
             }
         }
     });
-    if (0 < exports.length) {
-        fs.writeFileSync(dir + ".ts", exports.join("\n") + "\n");
+    if (0 < exports_public.length) {
+        fs.writeFileSync(dir + ".ts", exports_public.join("\n") + "\n");
+    }
+
+    files.forEach(element => {
+        if(internal_ts === element){
+            return;
+        }
+
+        let stats: fs.Stats = fs.statSync(dir + "/" + element);
+
+        if (null == stats || stats.isDirectory()) {
+            return;
+        }
+
+        if (-1 === files.indexOf(element.match(/\w+(?=\.)/)[0])) {
+            let codes: string[] = genCode(dir + "/" + element, /^export\s+(interface|class|function|type|var|let|const)\s+[a-z]\w*(?=\s*({|\()|<|:|)/gm);
+
+            if (null !== codes) {
+                exports_internal.push(`export { ${codes.join(",")} } from "${"./" + element.replace(".ts", "")}";`);
+            }
+        }
+    });
+    if (0 < exports_internal.length) {
+        fs.writeFileSync(dir + "/internal.ts", exports_internal.join("\n") + "\n");
     }
 }
 
-function genCode(ts: string): string[] {
+function genCode(ts: string, reg: RegExp): string[] {
     let content: string = fs.readFileSync(ts, "utf8");
-    let exports = content.match(/^export\s+(interface|class|function|type|var|let|const)\s+[A-Z]\w*(?=\s*({|\()|<|:|)/gm);
+    let exports = content.match(reg);
 
     if (null === exports || 0 === exports.length) {
         return null;
     }
 
     return exports.map((value: string, index: number, array: string[]): string => {
-        return value.match(/[A-Z]\w*$/g)[0];
+        return value.match(/[a-z_A-Z]\w*$/g)[0];
     });
 }
