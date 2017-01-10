@@ -5,6 +5,9 @@ import * as fs from 'fs';
 })();
 
 function searchDir(dir: string): void {
+    if(!fs.existsSync(dir)){
+        return;
+    }
     let files: string[] = fs.readdirSync(dir);
 
     files.forEach(element => {
