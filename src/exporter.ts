@@ -1,13 +1,19 @@
 import * as fs from 'fs';
+import { log } from 'util';
 
-(():void => {
-     searchDir(process.argv[2]);
+/**
+ * 迭代指定目录下的子目录，把子目录下一级的ts文件所包含的全部export项导出
+ */
+((): void => {
+    log("export ts file")
+    searchDir(process.argv[2]);
 })();
 
 function searchDir(dir: string): void {
-    if(!fs.existsSync(dir)){
+    if (!fs.existsSync(dir)) {
         return;
     }
+
     let files: string[] = fs.readdirSync(dir);
 
     files.forEach(element => {
@@ -15,7 +21,7 @@ function searchDir(dir: string): void {
 
         let stats: fs.Stats = fs.statSync(element);
 
-        if (null == stats) {
+        if (null === stats) {
             return;
         }
 
@@ -34,21 +40,21 @@ function handleDir(dir: string): void {
     let files: string[] = fs.readdirSync(dir);
 
     files.forEach(element => {
-        if(internal_ts === element){
+        if (internal_ts === element) {
             return;
         }
 
         let stats: fs.Stats = fs.statSync(dir + "/" + element);
 
-        if (null == stats || stats.isDirectory()) {
+        if (null === stats || stats.isDirectory()) {
             return;
         }
 
-        if (-1 === files.indexOf(element.match(/\w+(?=\.)/)[0])) {
-            let codes: string[] = genCode(dir + "/" + element, /^export\s+(interface|class|function|type|var|let|const)\s+[A-Z]\w*(?=\s*({|\()|<|:|)/gm);
+        if (-1 === files.indexOf(element.match(/\w+(?=\.)/)![0])) {
+            let codes = genCode(dir + "/" + element, /^export\s+(interface|class|function|type|var|let|const)\s+[A-Z]\w*(?=\s*({|\()|<|:|)/gm);
 
             if (null !== codes) {
-                exports_public.push(`export { ${codes.join(",")} } from "${"./" + dir.match(/\w+$/g)[0] + "/" + element.replace(".ts", "")}";`);
+                exports_public.push(`export { ${codes.join(",")} } from "${"./" + dir.match(/\w+$/g)![0] + "/" + element.replace(".ts", "")}";`);
                 exports_internal.push(`export { ${codes.join(",")} } from "${"./" + element.replace(".ts", "")}";`);
             }
         }
@@ -58,18 +64,18 @@ function handleDir(dir: string): void {
     }
 
     files.forEach(element => {
-        if(internal_ts === element){
+        if (internal_ts === element) {
             return;
         }
 
         let stats: fs.Stats = fs.statSync(dir + "/" + element);
 
-        if (null == stats || stats.isDirectory()) {
+        if (null === stats || stats.isDirectory()) {
             return;
         }
 
-        if (-1 === files.indexOf(element.match(/\w+(?=\.)/)[0])) {
-            let codes: string[] = genCode(dir + "/" + element, /^export\s+(interface|class|function|type|var|let|const)\s+[a-z]\w*(?=\s*({|\()|<|:|)/gm);
+        if (-1 === files.indexOf(element.match(/\w+(?=\.)/)![0])) {
+            let codes = genCode(dir + "/" + element, /^export\s+(interface|class|function|type|var|let|const)\s+[a-z]\w*(?=\s*({|\()|<|:|)/gm);
 
             if (null !== codes) {
                 exports_internal.push(`export { ${codes.join(",")} } from "${"./" + element.replace(".ts", "")}";`);
@@ -81,7 +87,7 @@ function handleDir(dir: string): void {
     }
 }
 
-function genCode(ts: string, reg: RegExp): string[] {
+function genCode(ts: string, reg: RegExp): string[] | null {
     let content: string = fs.readFileSync(ts, "utf8");
     let exports = content.match(reg);
 
@@ -90,6 +96,6 @@ function genCode(ts: string, reg: RegExp): string[] {
     }
 
     return exports.map((value: string, index: number, array: string[]): string => {
-        return value.match(/[a-z_A-Z]\w*$/g)[0];
+        return value.match(/[a-z_A-Z]\w*$/g)![0];
     });
 }

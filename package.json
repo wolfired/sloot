@@ -3,24 +3,26 @@
   "version": "0.0.1",
   "description": "",
   "bin": {
-    "slt_exp": "./bin/exporter"
+    "slt_exp": "./bin/exporter",
+    "slt_mer": "./bin/merger"
+  },
+  "directories": {
+    "lib": "lib"
   },
   "scripts": {
-    "bin": "tsc -p .",
-    "lib": "tsc -p . --declaration --outDir ./lib",
-    "clean": "rm -rf bin/*.* lib/",
-    "deps": "rm -rf node_modules/ && npm install",
-    "types": "rm -rf typings/ && typings install",
-    "install": "npm run types && npm run lib"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wolfired/sloot.git"
   },
-  "author": "LinkWu",
+  "author": "LinkWu <wjianl@qq.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/wolfired/sloot/issues"
   },
-  "homepage": "https://github.com/wolfired/sloot#readme"
+  "homepage": "https://github.com/wolfired/sloot#readme",
+  "devDependencies": {
+    "@types/node": "^10.12.2"
+  }
 }
